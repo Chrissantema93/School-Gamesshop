@@ -1,0 +1,47 @@
+﻿@model Games
+<div class="card card-outline-primary m-1 p-1" style="background-color:rgba(245,245,245,1);border-color:black;box-shadow: 0px 10px 15px rgba(0,0,0,0.3);min-width:320px;width:22vw;max-width:405px;float:left">
+
+    <span class="card-text p-1">
+        <a asp-action="GameInfo"
+           asp-controller="Games"
+           asp-route-Games="Games"
+           asp-route-Genre="@Model.Genre"
+           asp-route-Name="@Model.QueryName">
+            <img src="@Model.HeaderImage" class="image-header" />
+        </a>
+        <div style="min-height:80px">
+            <h4>@Model.QueryName</h4>
+        </div>
+
+        <span class="pull-left" style="margin-left:5px">Score: @Model.Metacritic%</span>
+        <div class="pull-right" style="margin-right:5px;position:relative;height:25px;width:156px">
+            <div style="position:relative;background-color:#0785f3;height:100%;width:calc(1% * @Model.Metacritic)">
+                <img src="https://image.ibb.co/c60Tn6/rating_bar.png" style="position:absolute;height:25px;width:156px;" />
+            </div>
+        </div>
+        <br />
+        <hr />
+        <b>Genre: </b>@Model.Genre <br />
+        <b>Releasedate: </b>@Model.ReleaseDate <br />
+        <h4><small style="float:left">@(Model.PriceFinal.ToString("C")),-</small></h4>
+        <form id="@Model.ID" asp-action="AddToCart"
+              asp-controller="Cart" method="post">
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" name="returnUrl"
+                   value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+            <button type="submit"
+                    class="btn btn-primary btn-sm pull-right" style="float:right">
+                Add To Cart
+            </button>
+        </form>
+        <form asp-route-Gameid="@Model.ID" asp-action="AddToWishlist" asp-controller="Users">
+            <input type="hidden" name="returnUrl"
+                   value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+            <button type="submit"
+                    class="btn btn-primary btn-sm pull-right" style="float:right;margin-right:5px;">
+                Add To Wishlist
+            </button>
+        </form>
+    </span>
+
+</div>

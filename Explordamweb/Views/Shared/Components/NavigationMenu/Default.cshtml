@@ -1,0 +1,37 @@
+﻿<div style="min-height:calc(100vh - 150px)">
+    <br />
+    <h4>Search</h4>
+    <br />
+    <form asp-controller="Games"
+          asp-action="SearchList"
+          data-step="2"
+          data-intro="With this searchbar you can type in any title or part of a title of a game to see all games which have a similar name.">
+        <table cellpadding="0" cellspacing="0" style="width:100%">
+            <tr>
+                <td>
+                    <input placeholder="Try searching for a title" class="btn btn-block btn-secondary" type="search" name="SearchString" />
+                </td>
+                <td>
+                    <input type="submit" value="&#x1F50E" class="btn btn-block btn-secondary" style="-webkit-filter: grayscale(100%); filter: grayscale(100%);padding: .5rem .5rem;" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br />
+    <br />
+    <h4>Genres</h4>
+    <br />
+    <div data-step="3" data-intro="With these buttons you can search for a specific genre.">
+        @foreach (string Genre in Model)
+        {
+            <a class="btn btn-block
+@(Genre == ViewBag.SelectedCategory ? "btn-primary": "btn-secondary")"
+               asp-action="List"
+               asp-controller="Games"
+               asp-route-genre="@Genre"
+               asp-route-GamesPage="1">
+                @Genre
+            </a>
+        }
+    </div>
+</div>

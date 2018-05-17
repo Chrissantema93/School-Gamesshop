@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Wishitem>
+@{
+    ViewBag.Title = "User Page";
+    Layout = "_UsersLayout";
+}
+
+@if (Model.Count() == 0)
+{
+    <br />
+    <h2><span data-step="2" data-intro="This page will display all your items that you have added to your wishlist. Right now it's empty, are you sure there isn't anything you desire?">Your wishlist is empty.</span></h2>
+
+}
+else
+{
+    <br />
+    <h2>Your Wishlist</h2><br />
+    <table class="table table-bordered pull-left" style="width:100%;" data-step="2" data-intro="Here you have an overview of each item that you have added to your wishlist.">
+        <tr style="background-color:#eaeaea">
+            <td><h5>Picture</h5></td>
+            <td><h5>Genre</h5></td>
+            <td><h5>Queryname</h5></td>
+            <td><h5>Price</h5></td>
+            <td><h5>View</h5></td>
+            <td style="width:100px"><h5>Action</h5></td>
+        </tr>
+        @foreach (Wishitem Wi in Model.OrderByDescending(g => g.DateAdded))
+        {
+
+            <tr class="btn-secondary" style="width:100%" data-step="3" data-intro="Take this game for example, it shows the price, genre, name and a picture, but if you need more info...">
+                <td><img src="@Wi.GameImage" style="width:100%;max-width:250px;min-width:110px" /></td>
+                <td>@Wi.GameGenre</td>
+                <td>@Wi.GameName</td>
+                <td>&#36; @Wi.GamePrice,-</td>
+                <td>
+                    <center>
+                        <a data-step="4" data-intro="You can click this button to view more info about the game." asp-action="GameInfo"
+                           asp-controller="Games"
+                           asp-route-Games="Games"
+                           asp-route-Genre="@Wi.GameGenre"
+                           asp-route-Name="@Wi.GameName" class="btn btn-success" style="width:80%;min-width:120px">
+                            view product
+                        </a>
+                    </center>
+
+                </td>
+                <td>
+                    <center>
+                        <form style="padding:5px 0px" asp-route-Gameid="@Wi.GameId" asp-action="RemoveFromWishlist" asp-controller="Users">
+                            <input type="hidden" name="returnUrl"
+                                   value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                            <button data-step="5" data-intro="Not intrested anymore? Just click this button to remove the item from your wishlist. Don't worry, you can always re-add the game to your wishlist if you change your mind." style="width:100%" type="submit" onclick="return confirm('are you sure you want to delete @(Wi.GameName)?')" class="btn btn-danger">Remove</button>
+
+                        </form>
+                        <form id="@Wi.GameId" asp-action="AddToCart"
+                              asp-controller="Cart" method="post">
+                            <input type="hidden" name="id" value="@Wi.GameId" />
+                            <input type="hidden" name="returnUrl"
+                                   value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+
+                            <button data-step="6" data-intro="This button will add the item to your shopping cart so you can purchase the game." type="submit"
+                                    class="btn btn-primary"
+                                    style="width:100%">
+                                Add To Cart
+                            </button>
+                        </form>
+                    </center>
+                </td>
+            </tr>
+        }
+        <tr style="background-color:#fff">
+            <td colspan="2"></td>
+            <td><h5><span style="float:right">Total Price:</span></h5></td>
+            <td data-step="7" data-intro="This is the total cost of all your games currently in your wishlist.">
+                @if (true)
+                {
+                    decimal total = 0;
+                    @foreach (Wishitem kek in Model)
+                    {
+                        total += kek.GamePrice;
+                    }
+
+                    <span>&#36; @total,-</span>
+                }
+            </td>
+            <td colspan="2"></td>
+        </tr>
+
+    </table>
+}

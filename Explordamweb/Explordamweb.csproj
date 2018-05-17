@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\ClaimsController.cs" />
+    <Compile Remove="Controllers\RoleAdminController.cs" />
+    <Compile Remove="Controllers\UserAdminController.cs" />
+    <Compile Remove="Infrastructure\ClaimTypeTagHelper.cs" />
+    <Compile Remove="Models\UserViewModels.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Admin\ChartArrayBasics.cshtml" />
+    <Content Remove="Views\Users\ResetPassword.cshtml" />
+  </ItemGroup>
+  <!--<ItemGroup>
+    <Content Include="Views\Charts\LineBasicSales.cshtml" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <PackageReference Include="Highcharts.Net" Version="2.0.3" />
+    <PackageReference Include="Highsoft.Web.Mvc" Version="5.0.14" />
+    <PackageReference Include="IBM.WatsonDeveloperCloud.Conversation.v1" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\introjs.css" />
+    <None Include="wwwroot\css\site.css" />
+    <None Include="wwwroot\css\site.min.css" />
+    <None Include="wwwroot\favicon.ico" />
+    <None Include="wwwroot\js\intro.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\site.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Views\Cart\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+</Project>

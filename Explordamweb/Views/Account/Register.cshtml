@@ -1,0 +1,41 @@
+﻿@model CreateModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "_NoLayout";
+}
+<center>
+    <div style="max-width:500px;width:95%;height:calc(100vh - 138px)">
+        <div class="bg-primary m-1 p-1 text-white"><h4>Register</h4></div>
+
+        <div asp-validation-summary=" All" class="text-danger"></div>
+        <form asp-action="Register" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" type="tel" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <a asp-action="Home" asp-controller="Home" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</center>
+
+

@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Order>
+@{
+    ViewBag.Title = "User Page";
+    Layout = "_UsersLayout";
+}
+<style>
+    .product-row:hover {
+        background-color: rgba(0,0,0,0.25);
+    }
+
+    .info-discription-visible {
+        border-radius: .25em;
+        background-color: white;
+        position: absolute;
+        width: calc(100% - 60px);
+    }
+
+    .info-discription-hidden {
+        border-radius: .25em;
+        background-color: white;
+        position: absolute;
+        width: calc(100% - 60px);
+        display: none;
+    }
+</style>
+
+<script>
+    var prev = 0;
+    function toggleOF(row) {
+        if (row == prev) {
+            var opend = document.getElementsByClassName("info-discription-visible");
+            for (var i = 0; i < opend.length; i++) {
+                opend[i].setAttribute("class", "info-discription-hidden")
+            }
+            prev = 0;
+        }
+        else {
+            var thing = document.getElementById(row);
+            var opend = document.getElementsByClassName("info-discription-visible");
+            for (var i = 0; i < opend.length; i++) {
+                opend[i].setAttribute("class", "info-discription-hidden")
+            }
+            thing.setAttribute("class", "info-discription-visible")
+            prev = row;
+        }
+
+    }
+</script>
+
+@if (Model.Count() > 0)
+{
+    <br />
+    <h2>Order History</h2>
+    <br />
+    <table class="table table-bordered" style="background-color:rgba(255,255,255,0.5)">
+        <tr>
+            <td data-step="2" data-intro="This column will show the identification number of your order.">Order ID</td>
+            <td data-step="3" data-intro="This column shows the date of when the order took place.">Orderdate</td>
+            <td data-step="4" data-intro="This column contains the total price of your order.">Total price</td>
+            <td data-step="5" data-intro="This column will show whether the order has actually arrived in your inbox. If everything went right it will say 'Confirmed'. If something went wrong it will say 'Pending', please contact us if this is the case.">Order status</td>
+        </tr>
+        @foreach (Order o in Model.OrderByDescending(x => x.Orderdate))
+        {
+            <tr>
+                <td colspan="4" style="background-color:rgba(0,0,0,0.1)">
+                    <div id="@o.OrderID" class="info-discription-hidden">
+                        <br />
+                        <center><h4>Information about order <span style="color:steelblue;text-decoration:underline">@o.OrderID</span> on <span style="color:steelblue;text-decoration:underline">@o.Orderdate</span></h4></center>
+                        <br />
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td><b>View</b></td>
+                                <td><b>Game Title</b></td>
+                                <td><b>Quantity</b></td>
+                                <td><b>Price</b></td>
+                            </tr>
+                            @foreach (CartLine cl in o.Lines)
+                            {
+                                <tr>
+                                    <td>
+                                        <center>
+                                            <a asp-action="GameInfo"
+                                               asp-controller="Games"
+                                               asp-route-Games="Games"
+                                               asp-route-Genre="@cl.Game.Genre"
+                                               asp-route-Name="@cl.Game.QueryName" class="btn btn-success">
+                                                view product
+                                            </a>
+                                        </center>
+                                    </td>
+                                    <td>@cl.Game.QueryName</td>
+                                    <td>@cl.Quantity</td>
+                                    <td>
+                                        @if (true)
+                                    {
+                                        decimal i = cl.Quantity * cl.Game.PriceFinal;
+                                        <span>&#36; @i,-</span>
+                                    }
+                                </td>
+                            </tr>
+
+                            }
+                        </table>
+                        <center>
+                            <div onclick="toggleOF(@o.OrderID)" class="btn btn-primary">close</div>
+                        </center>
+                        <br />
+                    </div>
+                </td>
+            </tr>
+            <tr class="product-row" onclick="toggleOF(@o.OrderID)">
+                <td>@o.OrderID</td>
+                <td>@o.Orderdate</td>
+                <td>
+                    @if (true)
+                    {
+                        decimal linesum = 0;
+                        foreach (CartLine d in o.Lines)
+                        {
+                            linesum += d.Quantity * d.Game.PriceFinal;
+                        }
+                        <span>&#36; @linesum,-</span>
+                    }
+                </td>
+                <td>
+                    @if (o.Shipped == true)
+                    {
+                        <span style="color:#34cf16"><b>Confirmed</b></span>
+                    }
+                    else
+                    {
+                        <span style="color:red"><b>Pending</b><br /><a asp-action="Contact" asp-controller="Home">Contact us</a></span>
+
+                    }
+
+                </td>
+            </tr>
+
+        }
+    </table>
+}
+else
+{
+    <br />
+    <h2 data-step="2" data-intro="This page will display a list of all your orders. Right now it's empty.">No Orders</h2>
+}
+
+

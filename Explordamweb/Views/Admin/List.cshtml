@@ -1,0 +1,83 @@
+﻿@model GamesListViewModel
+@{
+    ViewBag.Title = "All Products";
+    Layout = "_AdminLayout";
+}
+<center>
+    <div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-secondary"
+         page-class-selected="btn-primary" page-url-category="@Model.CurrentCategory"
+         class="btn-group">
+    </div>
+</center>
+<br />
+<div>
+    <table class="table table-striped table-bordered table-sm">
+        <tr>
+            <th class="text-right">
+                <a asp-action="List"
+                   asp-route-sorton="Genre"
+                   asp-route-GamesPage="@Model.PagingInfo.CurrentPage">
+                    Genre
+                </a>
+            </th>
+            <th class="text-right">
+                <a asp-action="List"
+                   asp-route-sorton="Id"
+                   asp-route-GamesPage="@Model.PagingInfo.CurrentPage">
+                    Id
+                </a>
+            </th>
+            <th>
+                <a asp-action="List"
+                   asp-route-sorton="QueryName"
+                   asp-route-GamesPage="@Model.PagingInfo.CurrentPage">
+                    QueryName
+                </a>
+            </th>
+            <th class="text-right">
+                <a asp-action="List"
+                   asp-route-sorton="Price"
+                   asp-route-GamesPage="@Model.PagingInfo.CurrentPage">
+                    Price
+                </a>
+            </th>
+            <th class="text-center">Actions</th>
+        </tr>
+        @foreach (var item in Model.Games)
+        {
+            <tr>
+                <td class="text-right">@item.Genre</td>
+                <td class="text-right">@item.ID</td>
+
+                <td>@item.QueryName</td>
+                <td class="text-right">@item.PriceFinal.ToString("c")</td>
+                <td class="text-center">
+                    <form asp-action="Delete" method="post">
+                        <a asp-action="Edit" class="btn btn-sm btn-warning"
+                           asp-route-name="@item.QueryName">
+                            Edit
+                        </a>
+
+                        <input type="hidden" name="id" value="@item.ID" />
+                        <button type="submit" class="btn btn-danger btn-sm" OnClick="return confirm('Are you sure you want to delete @item.QueryName')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="text-center">
+        <a asp-action="Create" class="btn btn-primary">Add Product</a>
+    </div>
+    <br />
+</div>
+<center>
+    <div page-model="@Model.PagingInfo" page-action="List" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-secondary"
+         page-class-selected="btn-primary" page-url-category="@Model.CurrentCategory"
+         class="btn-group">
+    </div>
+</center>
+<br />

@@ -1,0 +1,135 @@
+﻿@model UserInfo
+@{
+    ViewBag.Title = "User Page";
+    Layout = "_UsersLayout";
+}
+<style>
+    .Window-box {
+        border: solid;
+        border-width: 2px;
+        border-color: #474a4b;
+        box-shadow: 0px 10px 15px rgba(0,0,0,0.3);
+        min-width: 320px;
+        width: 22vw;
+        max-width: 405px;
+        float: left;
+        margin: 10px 10px;
+    }
+
+    .Window-box-Header {
+        background-color: #474a4b;
+        width: 100%;
+        height: 70px;
+        color: white;
+        padding: 15px;
+    }
+
+    .Window-Box-Content {
+        background-color: rgba(245,245,245,0.95);
+        width: 100%;
+        height: 350px;
+    }
+
+        .Window-Box-Content a {
+            color: rgba(40,40,40,1);
+            text-decoration: none;
+            transition: 0.05s ease;
+            font-size: 1.12rem
+        }
+
+            .Window-Box-Content a:hover {
+                color: rgba(70,70,70,1);
+                transition: 0.25s ease;
+                padding-left: 10px;
+            }
+</style>
+
+
+<h3> Welcome Back @(User.Identity.Name).</h3>
+
+
+
+@if (Model.IsAdmin)
+{
+    <div class="Window-box">
+        <div class="Window-box-Header">
+            <h2>Admin</h2>
+        </div>
+        <div class="Window-Box-Content">
+            <ul style="list-style-type:none;padding-top: 10px">
+                <li><a asp-action="Index" asp-controller="Admin">&#10148; Admin-dashboard</a></li>
+                <li><a asp-action="List" asp-controller="Admin">&#10148; View/edit games</a></li>
+                <li><a asp-action="Users" asp-controller="Admin">&#10148; View/edit accounts</a></li>
+                <li><a asp-action="List" asp-controller="Order">&#10148; View all orders</a></li>
+            </ul>
+        </div>
+    </div>
+}
+
+<div class="Window-box" data-step="2" data-intro="In this box you can find information about the status of your shopping cart and wishlist or just continue to buy more games.">
+    <div class="Window-box-Header">
+        <h2>Shopping</h2>
+    </div>
+    <div class="Window-Box-Content">
+        <ul style="list-style-type:none;padding-top: 10px">
+            <li>
+                <a asp-controller="Cart"
+                   asp-action="Index"
+                   asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">
+                    &#10148; Your Cart
+                </a>
+            </li>
+            <li><a href="/">&#10148; Continue Shopping</a></li>
+            <li><a asp-action="WishList" asp-controller="Users">&#10148; Wishlist</a></li>
+        </ul>
+    </div>
+</div>
+<div class="Window-box" data-step="3" data-intro="Here you can see the current state of your account. Make sure your information is always up-to-date since we use this information to send you your games.">
+    <div class="Window-box-Header">
+        <h2>My Info</h2>
+    </div>
+    <div class="Window-Box-Content">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>Personal Number</td>
+                <td>@Model.Details.Id</td>
+            </tr>
+            <tr>
+                <td>UserName</td>
+                <td>@Model.Details.UserName</td>
+            </tr>
+            <tr>
+                <td>PhoneNumber</td>
+                <td>@Model.Details.PhoneNumber</td>
+            </tr>
+            <tr>
+                <td>EmailAdress</td>
+                <td style="word-break:break-all">@Model.Details.Email</td>
+            </tr>
+            <tr>
+                <td>Created Date</td>
+                <td>@Model.Details.CreatedDate</td>
+            </tr>
+        </table>
+        <ul style="list-style-type:none">
+            <li><a asp-action="EditDetails" asp-controller="Users">&#10148; Edit information</a></li>
+        </ul>
+    </div>
+</div>
+<div class="Window-box" data-step="4" data-intro="This box will show you if there are any problems with your account, if there is anything that requires your attention please contact us.">
+    <div class="Window-box-Header">
+        <h2>Account status</h2>
+    </div>
+    <div class="Window-Box-Content">
+        <ul style="padding-top:10px">
+            @if (Model.Details.EmailConfirmed)
+            {
+                <li>Email: <span style="color:#34cf16"><b>Confirmed</b></span></li>
+            }
+            else
+            {
+                <li>Email: <span style="color:red"><b>Not Confirmed</b></span></li>
+            }
+        </ul>
+    </div>
+</div>

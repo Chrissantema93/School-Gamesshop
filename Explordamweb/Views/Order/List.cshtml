@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Order>
+@{
+    ViewBag.Title = "Orders";
+    Layout = "_AdminLayout";
+}
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered table-striped">
+        <tr><th>Name</th><th>Surname</th><th colspan="2">Details</th><th></th></tr>
+        @foreach (Order o in Model)
+        {
+            <tr>
+                <td>@o.Name</td>
+                <td>@o.Surname</td>
+                <th>Product</th>
+                <th>Price</th>
+                <td>
+                    <form asp-action="MarkShipped" method="post">
+                        <input type="hidden" name="orderId" value="@o.OrderID" />
+
+                    </form>
+                </td>
+            </tr>
+            @foreach (CartLine line in o.Lines)
+            {
+                <tr>
+                    <td colspan="2"></td>
+                    <td>@line.Game.QueryName</td>
+                    <td>@line.Game.PriceFinal</td>
+
+                </tr>
+            }
+        }
+    </table>
+}
+else
+{
+    <div class="text-center">No Orders</div>
+}

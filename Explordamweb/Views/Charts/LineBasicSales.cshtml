@@ -1,0 +1,84 @@
+﻿@*You need to add a reference to jQuery prior to referencing the highcharts javascript file*@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+
+@using Highsoft.Web.Mvc.Charts
+
+@(Html.Highsoft().Highcharts(
+        new Highcharts
+        {
+            Title = new Title
+            {
+                Text = "Total Sales",
+                X = -20
+            },
+            Subtitle = new Subtitle
+            {
+                Text = "Grouped per day",
+                X = -20
+            },
+            XAxis = new List<XAxis>
+            {
+                new XAxis
+                {
+                    Categories = @ViewData["salesDataTime"] as List<String>
+
+                }
+            },
+            YAxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    Title = new YAxisTitle
+                    {
+                        Text = "Amount"
+                    },
+                    PlotLines = new List<YAxisPlotLines>
+                    {
+                            new YAxisPlotLines
+                        {
+                            Value = 0,
+                            Width = 1,
+                            Color = "#808080"
+                        }
+                    }
+                }
+            },
+            PlotOptions = new PlotOptions
+            {
+                Line = new PlotOptionsLine
+                {
+                    DataLabels = new PlotOptionsLineDataLabels
+                    {
+                        Enabled = true
+                    },
+                    EnableMouseTracking = false
+                }
+            },
+            Tooltip = new Tooltip
+            {
+                //ValueSuffix = "°C"
+            },
+            Legend = new Legend
+            {
+                Layout = LegendLayout.Vertical,
+                Align = LegendAlign.Right,
+                VerticalAlign = LegendVerticalAlign.Middle,
+                BorderWidth = 0
+            },
+            Series = new List<Series>
+            {
+                new LineSeries
+                {
+                    Name = "Sales",
+                    Data = @ViewData["salesData"] as List<LineSeriesData>
+                }
+            }
+        }
+        , "chart")
+)

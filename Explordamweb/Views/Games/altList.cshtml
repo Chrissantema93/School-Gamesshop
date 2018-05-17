@@ -1,0 +1,227 @@
+﻿@model GamesListViewModel
+<style>
+    .dropbtn {
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        cursor: pointer;
+        width: 120px;
+        height: 30px;
+        border-radius: 4px;
+    }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: rgba(0,0,0,0.75);
+        }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        height: 30px;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 260px;
+        margin-left: -70px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 99;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+    .dropdown a:hover {
+        background-color: #e6e6e6
+    }
+
+    .show {
+        display: block;
+    }
+
+    @@keyframes bounce {
+        0% {
+            transform: translateY(-5px);
+        }
+
+        50% {
+            transform: translateY(5px);
+        }
+
+        100% {
+            transform: translateY(-5px);
+        }
+    }
+</style>
+<br />
+<div style="width:100%;height:40px">
+    <h3 style="float:left">@Model.CurrentCategory</h3>
+    <div class="dropdown" style="float:right;margin-right:100px;margin-top:5px">
+        <div style="position:relative" class="dropbtn" data-step="4" data-intro="Click this button to select a criteria to filter the games on.">
+            <center>
+                <div id="drop-anim">
+                    <div style="transform: rotate(-90deg);
+                            -webkit-transform: rotate(-90deg);
+                            -moz-transform: rotate(-90deg);
+                            -ms-transform: rotate(-90deg);
+                            -o-transform: rotate(-90deg);
+                            font-size:30px;
+                            position:absolute;
+                            margin-left:calc(50% - 8px);
+                            margin-top:calc(-5px);">
+                        &#10094;
+                    </div>
+                </div>
+            </center>
+            <button onclick="Sort()" class="dropbtn" style="position:absolute;height:100%;width:100%;background-color:rgba(0,0,0,0);outline: none;"></button>
+        </div>
+
+
+        <div id="myDropdown" class="dropdown-content">
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="PriceFinal"
+               asp-route-ascordesc="Desc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Price: High to Low
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="PriceFinal"
+               asp-route-ascordesc="Asc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Price: Low to High
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="Metacritic"
+               asp-route-ascordesc="Desc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Recommendation: High to Low
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="Metacritic"
+               asp-route-ascordesc="Asc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Recommendation: Low to High
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="QueryName"
+               asp-route-ascordesc="Desc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Alphabetical: Z to A
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="QueryName"
+               asp-route-ascordesc="Asc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Alphabetical: A to Z
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="ReleaseDate"
+               asp-route-ascordesc="Desc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Newest Released
+            </a>
+            <a asp-action="SortList"
+               asp-controller="Games"
+               asp-route-SortOn="ReleaseDate"
+               asp-route-ascordesc="Asc"
+               asp-route-genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Oldest Released
+            </a>
+            <a asp-action="AltList"
+               asp-controller="Games"
+               asp-route-Games="Games"
+               asp-route-Filter="Filter"
+               asp-route-platform="Windows"
+               asp-route-Genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Windows
+            </a>
+            <a asp-action="AltList"
+               asp-controller="Games"
+               asp-route-Games="Games"
+               asp-route-Filter="Filter"
+               asp-route-platform="Linux"
+               asp-route-Genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Linux
+
+            </a>
+            <a asp-action="AltList"
+               asp-controller="Games"
+               asp-route-Games="Games"
+               asp-route-Filter="Filter"
+               asp-route-platform="Mac"
+               asp-route-Genre="@Model.CurrentCategory"
+               asp-route-GamesPage="1">
+                Mac
+            </a>
+        </div>
+    </div>
+    <h5 style="float:right;margin-right:10px;margin-top:8px">Sort on: </h5>
+
+    <script>
+        function Sort() {
+            document.getElementById("myDropdown").classList.toggle("show");
+            document.getElementById("drop-anim").style.animationName = "bounce";
+            document.getElementById("drop-anim").style.animationDuration = "1.7s";
+            document.getElementById("drop-anim").style.animationIterationCount = "infinite";
+        }
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+
+                document.getElementById("drop-anim").style.animationName = "";
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</div>
+<hr />
+<center>
+    <div page-model="@Model.PagingInfo" page-action="AltList" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-secondary"
+         page-class-selected="btn-primary"
+         class="btn-group"
+         data-step="5" data-intro=" @if (Model.PagingInfo.TotalPages <= 1) { <span>The search result only returned one page so there are no other pages to view right now.</span> } else { <span>Click on one of these buttons to navigate to the corresponding page.</span> }">
+    </div>
+</center>
+<br />
+@foreach (var p in Model.Games)
+{
+    @Html.Partial("GameSummary", p)
+}
+<center>
+    <div page-model="@Model.PagingInfo" page-action="AltList" page-classes-enabled="true"
+         page-class="btn" page-class-normal="btn-secondary"
+         page-class-selected="btn-primary"
+         class="btn-group">
+    </div>
+</center>

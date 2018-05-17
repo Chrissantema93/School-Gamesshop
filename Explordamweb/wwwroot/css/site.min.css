@@ -1,0 +1,21 @@
+body{
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    width:100%;
+    height:100%;
+}
+.body-content{
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    width:100%;
+    height:100%;
+}
+.carousel-caption p{
+    font-size:20px;
+    line-height:1.4
+}
+.carousel-inner .item img[src$=".svg"]{width:100%}#qrCode{margin:15px}@media screen and (max-width:767px){.carousel-caption{display:none}}

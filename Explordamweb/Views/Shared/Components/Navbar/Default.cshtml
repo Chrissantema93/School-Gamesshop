@@ -1,0 +1,193 @@
+﻿<style>
+    .loginbutton {
+        cursor: pointer;
+        margin: 0px 15px 0px 15px;
+        background-color: rgba(0,0,0,0);
+        border: none;
+        display: inline-block;
+        padding-top: .3rem;
+        padding-bottom: .25rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+        color: rgba(246,246,246,0.96);
+        text-decoration: none;
+        outline: none;
+    }
+
+    .Userdropbtn {
+        color: white;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .Userdropdown {
+        position: relative;
+        display: inline-block;
+        height: 30px;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+        margin: 0px 15px 0px 15px
+    }
+
+    .Userdropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 180px;
+        margin-top: 12px;
+        margin-left: -15px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 99;
+        font-size: medium;
+    }
+
+        .Userdropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+    .Userdropdown a:hover {
+        background-color: #f1f1f1
+    }
+
+    .Usershow {
+        display: block;
+    }
+
+    .Login-small-dropbtn {
+        color: white;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .Login-small-dropdown {
+        position: relative;
+        display: inline-block;
+        height: 30px;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        margin-right: 1rem;
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+        margin: 0px 15px 0px 15px
+    }
+
+    .Login-small-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 180px;
+        margin-top: 12px;
+        margin-left: -15px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+        z-index: 99;
+        font-size: medium;
+    }
+
+    .Login-small-show {
+        display: block;
+    }
+
+    .filler {
+        margin: 1px 8px 15px 8px;
+    }
+</style>
+<script>
+    var usr = false;
+    function UserSort() {
+        document.getElementById("UsermyDropdown").classList.toggle("Usershow");
+        usr = true;
+    }
+    function UserLogin() {
+        document.getElementById("Login-small-myDropdown").classList.toggle("Login-small-show");
+        usr = false;
+    }
+    if (usr) {
+        window.onclick = function (event) {
+            if (!event.target.matches('.Userdropbtn')) {
+
+                var Userdropdowns = document.getElementsByClassName("Userdropdown-content");
+                var i;
+                for (i = 0; i < Userdropdowns.length; i++) {
+                    var UseropenDropdown = Userdropdowns[i];
+                    if (UseropenDropdown.classList.contains('Usershow')) {
+                        UseropenDropdown.classList.remove('Usershow');
+                    }
+                }
+            }
+        }
+    }
+
+</script>
+
+<a class="navbar-brand" asp-action="Home" asp-controller="Home" style="margin: 0px 15px 0px 15px">Home</a>
+@if (User.Identity.Name != null)
+{
+    <div class="Userdropdown">
+        <div class="Userdropbtn">
+            <div onclick="UserSort()" class="Userdropbtn" style="outline: none;">My Account</div>
+        </div>
+        @*ZORG DAT DE ACTIONS OVEREENKOMEN MET DIE VAN VIEWS/SHARED/USERMENU/DEFAULT.CSHTML, DIT IS EEN COPY ERVAN, MAAR DAN ANDERS*@
+        <div id="UsermyDropdown" class="Userdropdown-content">
+            <a asp-action="Index" asp-controller="Users">
+                Dashboard
+            </a>
+            <a asp-action="WishList" asp-controller="Users">
+                Wishlist
+            </a>
+            <a asp-action="History" asp-controller="Users">
+                Order History
+            </a>
+            <a asp-action="EditDetails" asp-controller="Users">
+                Edit Acountdetails
+            </a>
+            <a asp-action="Logout" asp-controller="Account">
+                Log Out
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="Login-small-dropdown">
+        <div class="Login-small-dropbtn">
+            <div onclick="UserLogin()" class="Login-small-dropbtn" style="outline: none;">Login</div>
+        </div>
+        <div id="Login-small-myDropdown" class="Login-small-dropdown-content">
+            <center>
+                <img src="https://image.ibb.co/fwDDN6/gameschop_logo.png" style="width:80%;padding:30px 0px" />
+
+                <form asp-action="Login" asp-controller="Account">
+                    <input type="hidden" name="returnUrl"
+                           value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                    Username:<br />
+                    <input class="btn btn-secondary filler" type="text" name="Name" /><br />
+                    Password:<br />
+                    <input class="btn btn-secondary filler" type="password" name="Password" /><br />
+                    <input type="submit" value="Login" class="btn btn-primary" style="margin:15px 0px" />
+
+
+                    <a asp-action="Register" asp-controller="Account"><span class="btn btn-primary">Register</span></a>
+                    <p>
+                        <a asp-action="ForgotPassword" asp-controller="Account">Forgot your password?</a>
+                    </p>
+                </form>
+            </center>
+        </div>
+    </div>
+}
+<a class="navbar-brand" asp-action="Contact" asp-controller="Home" style="margin: 0px 15px 0px 15px">Contact</a>
+<a class="col navbar-brand" href="javascript:void(0);" onclick="javascript:introJs().start();">Help</a>
+
+
+

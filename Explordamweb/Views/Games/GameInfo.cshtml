@@ -1,0 +1,142 @@
+﻿@model GameInfoViewModel
+<style>
+    .vlak1 {
+        width: 100%;
+        height: 45vh;
+        float: left;
+        position: relative;
+        height: 550px;
+    }
+
+    .vlak2 {
+        width: calc(100% - 15px);
+        height: 45vh;
+        float: left;
+        margin-left: 15px;
+        height: 550px;
+    }
+
+    .vlak3 {
+        width: 100%;
+        float: left;
+    }
+
+    .horizontal-bar {
+        visibility: hidden;
+    }
+
+    @@media screen and (min-width: 1100px) {
+        .vlak1 {
+            width: 60%;
+            height: 55vh;
+            float: left;
+            height: 550px;
+        }
+
+        .vlak2 {
+            width: calc(40% - 15px);
+            height: 55vh;
+            float: left;
+            margin-left: 15px;
+            height: 550px;
+        }
+
+        .vlak3 {
+            width: 100%;
+            float: left;
+        }
+
+        .horizontal-bar {
+            visibility: visible;
+        }
+    }
+</style>
+
+@foreach (Games game in Model.Game)
+{
+    <div style="background-color:rgba(255, 255, 255, 0.75);
+                border-radius:0.5rem;
+                width:100%;
+                height:100%;
+                padding: 5px 10px;
+                box-shadow: 2px 10px 15px rgba(0,0,0,0.5);">
+        <div class="vlak1">
+            <img src="@game.HeaderImage" style="width:calc(100% - 3px);
+                                            position: absolute;
+                                            top: 50%;
+                                            transform: translateY(-50%);
+                                            float:left" />
+            <div class="horizontal-bar" style="height:100%;background-color:#424242;width:1px;border-radius:50%;float:right"></div>
+        </div>
+        <div class="vlak2">
+            <center><h3>@game.QueryName</h3><br /></center>
+            <br />
+            <h2>&#36; @game.PriceFinal,-</h2>
+            <br />
+            <h5><span style="color:royalblue">@game.RecommendationCount</span> other people recommend this game.</h5>
+            <br />
+            <table>
+                <tr><td colspan="2"><h4>Platform Compatibility</h4></td></tr>
+                <tr>
+                    <td>Windows</td>
+                    <td>@game.PlatformWindows</td>
+                </tr>
+                <tr>
+                    <td>Linux</td>
+                    <td>@game.PlatformLinux</td>
+                </tr>
+                <tr>
+                    <td>Mac</td>
+                    <td>@game.PlatformMac</td>
+                </tr>
+            </table>
+            <br />
+            <h4>Required age</h4>
+            @if (game.RequiredAge == 0)
+            {
+                <p>There is no age restriction for this game.</p>
+            }
+            else
+            {
+                <p>@game.RequiredAge</p>
+            }
+            <table style="width:100%;height:35px">
+                <tr>
+                    <td>
+                        <center>
+                            <form id="@game.ID" asp-action="AddToCart" asp-controller="Cart">
+                                <!-- asp-controller="Cart" om het te laten werken -->
+                                <input type="hidden" name="id" value="@game.ID" />
+                                <input type="hidden" name="returnUrl"
+                                       value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                <button type="submit"
+                                        class="btn btn-primary btn-sm" style="width:100%">
+                                    <h4>Add To Cart</h4>
+                                </button>
+                            </form>
+                        </center>
+                    </td>
+                    <td>
+                        <center>
+                            <form asp-route-Gameid="@game.ID" asp-action="AddToWishlist" asp-controller="Users">
+                                <input type="hidden" name="returnUrl"
+                                       value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+                                <button type="submit" onClick="javascript: return alert('@(game.QueryName) will be added to your wishlist')"
+                                        class="btn btn-primary btn-sm" style="width:100%">
+                                    <h4>Add To Wishlist</h4>
+                                </button>
+                            </form>
+                        </center>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="height:1px;background-color:#424242;width:100%;border-radius:50%;float:left;"></div>
+        <div class="vlak3">
+            <h3>Description:</h3>
+            <p style="font-size:16px">
+                @game.DetailedDescrip
+            </p>
+        </div>
+    </div>
+}

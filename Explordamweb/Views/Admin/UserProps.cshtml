@@ -1,0 +1,27 @@
+﻿@model AppUser
+
+@{
+    ViewBag.Title = "User Properties";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-primary m-1 p-1 text-white"><h4>@Model.UserName</h4></div>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="UserProps" method="post">
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <select asp-for="Country" class="form-control"
+                asp-items="@new SelectList(Enum.GetNames(typeof(Countries)))">
+            <option disabled selected value="">Select a Country</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="AccountType"></label>
+        <select asp-for="AccountType" class="form-control"
+                asp-items="@new SelectList(Enum.GetNames(typeof(AccountTypes)))">
+            <option disabled selected value="">Select an AccountType</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

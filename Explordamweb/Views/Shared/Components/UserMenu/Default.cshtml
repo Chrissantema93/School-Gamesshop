@@ -1,0 +1,23 @@
+﻿<div style="min-height:calc(100vh - 150px)">
+    @*ZORG DAT DE ACTIONS OVEREENKOMEN MET DIE VAN VIEWS/SHARED/NAVBAR/DEFAULT.CSHTML, DIT IS EEN COPY ERVAN, MAAR DAN ANDERS*@
+    <a asp-action="Index" asp-controller="Users"
+       class="btn btn-block btn-secondary">
+        Dashboard
+    </a>
+    <a asp-action="WishList" asp-controller="Users"
+       class="btn btn-block btn-secondary">
+        Wishlist
+    </a>
+    <a asp-action="History" asp-controller="Users"
+       class="btn btn-block btn-secondary">
+        Order History
+    </a>
+    <a asp-action="EditDetails" asp-controller="Users"
+       class="btn btn-block btn-secondary">
+        Edit Acountdetails
+    </a>
+    <a class="btn btn-block btn-secondary"
+       asp-action="Logout" asp-controller="Account">
+        Log Out
+    </a>
+</div>

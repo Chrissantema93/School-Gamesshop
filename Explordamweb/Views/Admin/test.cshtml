@@ -1,0 +1,8 @@
+﻿@model Test
+@{
+    Layout = "_NoLayout";
+}
+<form asp-action="test" asp-controller="Admin">
+    <input type="file" asp-for="filepath" accept=".jpg, .jpeg, .png" />
+    <input type="submit" />
+</form>

@@ -1,0 +1,57 @@
+﻿@*You need to add a reference to jQuery prior to referencing the highcharts javascript file*@
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+@{
+    Layout = "_AdminLayout";
+}
+
+
+@using Highsoft.Web.Mvc.Charts
+
+@(Html.Highsoft().Highcharts(
+        new Highcharts
+        {
+            Chart = new Chart
+            {
+                PlotBackgroundColor = null,
+                PlotBorderWidth = null,
+                PlotShadow = new Shadow
+                {
+                    Enabled = false
+                }
+            },
+            Title = new Title
+            {
+                Text = "Percentage of Games per genre"
+            },
+            Tooltip = new Tooltip
+            {
+                PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+            },
+            PlotOptions = new PlotOptions
+            {
+                Pie = new PlotOptionsPie
+                {
+                    AllowPointSelect = true,
+                    Cursor = PlotOptionsPieCursor.Pointer,
+                    DataLabels = new PlotOptionsPieDataLabels
+                    {
+                        Enabled = true,
+                        Format = "<b>{point.name}</b>: {point.percentage:.1f} %"
+                    }
+                }
+            },
+            Series = new List<Series>
+            {
+                new PieSeries
+                {
+                    Name = "Genre Share",
+                    Data = @ViewData["pieData"] as List<PieSeriesData>
+                },
+
+            }
+        }
+        , "chart")
+)

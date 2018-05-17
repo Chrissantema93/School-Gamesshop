@@ -1,0 +1,56 @@
+﻿@model CheckoutModel
+@inject UserManager<AppUser> UserManager
+@{
+    Layout = "_NoLayout";
+}
+<div style="padding: 10px calc(35% - 50px);height:calc(100vh - 134px)">
+    <h2>Check out now</h2>
+    <p>Please enter your details and we'll send your games</p>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="Checkout" method="post">
+        <h3>Details</h3>
+
+        @if (User.Identity.Name == null)
+        {
+            <input type="hidden" asp-for="Order.Orderdate" value="@DateTime.Now" />
+            <div class="form-group">
+
+                <label>Name:</label><input type="text" class="form-control" />
+                <input asp-for="Order.Name" value="NotLoggedInUser" type="hidden" class="form-control" />
+                <input asp-for="Order.UserID" value="NotLoggedInUser" type="hidden" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label><input asp-for="Order.Email" class="form-control" />
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Complete Order" />
+            </div>     }
+
+        else if (User.Identity.Name != null)
+        {
+            var username = UserManager.GetUserName(User);
+            var user = await UserManager.FindByNameAsync(username);
+            <p>Welcome back @user.UserName </p>
+
+            <input type="hidden" asp-for="Order.Orderdate" value="@DateTime.Now" />
+
+            <div class="form-group">
+
+                <label>Name:</label><input type="text" class="form-control" />
+                <input asp-for="Order.Name" value="@user.UserName" type="hidden" class="form-control" />
+                <input asp-for="Order.UserID" value="@user.Id" type="hidden" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label><input asp-for="Order.Email" value="@user.Email" class="form-control" />
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Complete Order" />
+            </div> }
+    </form>
+</div>
+

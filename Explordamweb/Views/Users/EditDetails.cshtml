@@ -1,0 +1,33 @@
+﻿@model EditAccountForm
+@{
+    ViewBag.Title = "Edit Users";
+    Layout = "_UsersLayout";
+}
+
+<br />
+<h2>Edit Account Information</h2>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="EditDetails" method="post">
+    <div class="form-group">
+        <label asp-for="Id"></label><input data-step="2" data-intro="This is your identification number, this number is attached to your account, wishlist, orders and many other things. So we can't change that." type="text" value="@Model.Id" class="form-control" disabled />
+        <input asp-for="Id" type="hidden" value="@Model.Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="UserName"></label><input data-step="3" data-intro="This is your username." type="text" value="@Model.UserName" class="form-control" disabled />
+        <input asp-for="UserName" type="hidden" value="@Model.UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input data-step="4" data-intro="Please keep in mind that we need a valid email adress to send you your games. If we have the wrong email adress we can't send any games or we might send them to the wrong person." asp-for="Email" name="email" value="@Model.Email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input data-step="5" data-intro="It's important that you insert a valid phonenumber since we might use it to call you if something goes wrong." asp-for="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input data-step="6" data-intro="Here you can fill in a new password if think you need a new one. Make sure the password is not easy to guess by others." asp-for="Password" name="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
